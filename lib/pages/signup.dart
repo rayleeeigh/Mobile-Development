@@ -29,35 +29,41 @@ class _SignupPageState extends State<SignupPage> {
         ),
         Scaffold(
           backgroundColor: Colors.black.withOpacity(0.6),
-          body: Column(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Center(
-                      child: Image.network(
-                          "https://i.ibb.co/zFpXYwL/pngwing-com.png",
-                          height: 200,
-                          width: 200))),
-              Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextField(
-                    controller: usernameController,
-                    decoration: const InputDecoration(
-                        label: Text("Username"),
-                        icon: Icon(Icons.person),
-                        hintText: 'Enter username'),
-                  )),
-              Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextField(
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                          label: Text("Password"),
-                          icon: Icon(Icons.password),
-                          hintText: 'Enter password'),
-                      obscureText: true)),
-              Row(
+          body: Form(
+              key: _formKey,
+              child: Column(
                 children: [
+                  Padding(
+                      padding: const EdgeInsets.only(top: 50.0),
+                      child: Center(
+                          child: Image.network(
+                              "https://i.ibb.co/zFpXYwL/pngwing-com.png",
+                              height: 200,
+                              width: 200))),
+                  Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == "") {
+                            return "Field is required";
+                          }
+                          return null;
+                        },
+                        controller: usernameController,
+                        decoration: const InputDecoration(
+                            label: Text("Username"),
+                            icon: Icon(Icons.person),
+                            hintText: 'Enter username'),
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextFormField(
+                          controller: passwordController,
+                          decoration: const InputDecoration(
+                              label: Text("Password"),
+                              icon: Icon(Icons.password),
+                              hintText: 'Enter password'),
+                          obscureText: true)),
                   Padding(
                       padding: const EdgeInsets.only(top: 20.0, left: 20.0),
                       child: ElevatedButton(
@@ -69,28 +75,29 @@ class _SignupPageState extends State<SignupPage> {
                             textStyle: const TextStyle(fontSize: 20),
                             backgroundColor: Colors.orange[400]),
                         onPressed: () async {
-                          try {
-                            UserCredential userCredential = await FirebaseAuth
-                                .instance
-                                .createUserWithEmailAndPassword(
-                                    email: usernameController.text,
-                                    password: passwordController.text);
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => App()));
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              print('No user found for that email.');
-                            } else if (e.code == 'wrong-password') {
-                              print('Wrong password provided for that user.');
+                          if (_formKey.currentState!.validate() == true) {
+                            try {
+                              await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: usernameController.text,
+                                      password: passwordController.text);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => App()));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                print('No user found for that email.');
+                              } else if (e.code == 'wrong-password') {
+                                print('Wrong password provided for that user.');
+                              }
                             }
                           }
                         },
                         child: const Text('Sign-up'),
                       ))
                 ],
-              )
-            ],
-          ),
+              )),
         ),
       ],
     );
