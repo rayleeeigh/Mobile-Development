@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterfire/pages/dashboard.dart';
-import 'package:flutterfire/pages/profile.dart';
-import 'package:flutterfire/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterfire/functions/google_sign_in.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -36,30 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 1),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(2.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
-
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: curve,
-                            );
-
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation, animationTime) {
-                            return const DashboardPage();
-                          }));
+                  Navigator.pushNamed(context, '/dashboard');
                 },
                 leading: GestureDetector(
                     child: const Icon(
@@ -68,30 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: const Text("Home")),
             ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 1),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(2.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
-
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: curve,
-                            );
-
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation, animationTime) {
-                            return const ProfilePage();
-                          }));
+                  Navigator.pushNamed(context, '/profile');
                 },
                 leading: GestureDetector(
                     child: const Icon(
@@ -130,9 +82,16 @@ class _SettingsPageState extends State<SettingsPage> {
                       textStyle: const TextStyle(fontSize: 20),
                       backgroundColor: Colors.orange[400]),
                   onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => App()));
+                    FirebaseService service = new FirebaseService();
+                    try {
+                      await service.signOutFromGoogle();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false);
+                    } catch (e) {
+                      if (e is FirebaseAuthException) {
+                        print(e.message!);
+                      }
+                    }
                   },
                   child: const Text("Signout"))
             ],

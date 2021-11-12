@@ -34,30 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 1),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(2.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
-
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: curve,
-                            );
-
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation, animationTime) {
-                            return const DashboardPage();
-                          }));
+                  Navigator.pushNamed(context, '/dashboard');
                 },
                 leading: GestureDetector(
                     child: const Icon(
@@ -65,32 +42,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 )),
                 title: const Text("Home")),
             ListTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 1),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(2.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
-
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: curve,
-                            );
-
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation, animationTime) {
-                            return const ProfilePage();
-                          }));
-                },
                 leading: GestureDetector(
                     child: const Icon(
                   Icons.account_circle, // add custom icons also
@@ -98,30 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: const Text("Profile")),
             ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 1),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(2.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
-
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: curve,
-                            );
-
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation, animationTime) {
-                            return const SettingsPage();
-                          }));
+                  Navigator.pushNamed(context, '/settings');
                 },
                 leading: GestureDetector(
                     child: const Icon(
