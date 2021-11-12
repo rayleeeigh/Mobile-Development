@@ -10,7 +10,6 @@ import 'package:flutterfire/pages/settings.dart';
 import 'package:flutterfire/pages/signup.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'dart:ui';
 
 void main() {

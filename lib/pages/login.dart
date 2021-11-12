@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire/functions/google_sign_in.dart';
-import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:ui';
 
 import '../main.dart';
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                         elevation: 5.0,
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(100.0),
-                        child: ElevatedButton(
+                        child: ElevatedButton.icon(
                           style: TextButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0)),
@@ -133,7 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                                   passwordController.text, context);
                             }
                           },
-                          child: const Text('Login via account'),
+                          icon: Icon(Icons.email),
+                          label: Text('Login via account'),
                         ),
                       )),
                   Padding(
@@ -142,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                         elevation: 5.0,
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(100.0),
-                        child: ElevatedButton(
+                        child: ElevatedButton.icon(
                           style: TextButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0)),
@@ -166,7 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             }
                           },
-                          child: const Text('Login via Google'),
+                          icon: const FaIcon(FontAwesomeIcons.google),
+                          label: const Text('Login via Google'),
                         ),
                       )),
                   Padding(
