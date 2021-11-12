@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire/functions/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -82,7 +83,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       textStyle: const TextStyle(fontSize: 20),
                       backgroundColor: Colors.orange[400]),
                   onPressed: () async {
-                    FirebaseService service = new FirebaseService();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                    FirebaseService service = FirebaseService();
                     try {
                       await service.signOutFromGoogle();
                       Navigator.pushNamedAndRemoveUntil(

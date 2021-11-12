@@ -13,12 +13,12 @@ import 'package:loading_animations/loading_animations.dart';
 import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String finalemail = "";
+String? finalemail;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  finalemail = prefs.getString('email')!;
+  finalemail = prefs.getString('email');
   runApp(App());
 }
 
