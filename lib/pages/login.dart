@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire/functions/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui';
 
 import '../main.dart';
@@ -128,13 +129,16 @@ class _LoginPageState extends State<LoginPage> {
                               textStyle: const TextStyle(fontSize: 20),
                               backgroundColor: Colors.orange[300]),
                           onPressed: () async {
+                            final SharedPreferences account =
+                                await SharedPreferences.getInstance();
+                            account.setString('email', usernameController.text);
                             if (_formKey.currentState!.validate() == true) {
                               signIn(usernameController.text,
                                   passwordController.text, context);
                             }
                           },
-                          icon: Icon(Icons.email),
-                          label: Text('Login via account'),
+                          icon: const Icon(Icons.email),
+                          label: const Text('Login via account'),
                         ),
                       )),
                   Padding(
@@ -156,7 +160,15 @@ class _LoginPageState extends State<LoginPage> {
                             //   signIn(usernameController.text,
                             //       passwordController.text, context);
                             // }
-                            FirebaseService service = new FirebaseService();
+                            final SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                            sharedPreferences.setString(
+                                'email', usernameController.text);
+                            setState(() {
+                              finalemail =
+                                  sharedPreferences.getString('email')!;
+                            });
+                            FirebaseService service = FirebaseService();
                             try {
                               await service.signInwithGoogle();
                               Navigator.pushNamedAndRemoveUntil(

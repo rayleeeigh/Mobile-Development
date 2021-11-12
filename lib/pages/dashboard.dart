@@ -1,11 +1,10 @@
+import 'dart:async';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire/functions/database.dart';
 
-import '../main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String finalemail = "";
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutterfire/functions/google_sign_in.dart';
 import 'package:flutterfire/pages/dashboard.dart';
 import 'package:flutterfire/pages/login.dart';
 import 'package:flutterfire/pages/profile.dart';
@@ -10,10 +9,16 @@ import 'package:flutterfire/pages/settings.dart';
 import 'package:flutterfire/pages/signup.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animations/loading_animations.dart';
 import 'dart:ui';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+String finalemail = "";
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  finalemail = prefs.getString('email')!;
   runApp(App());
 }
 
@@ -39,7 +44,7 @@ class _AppState extends State<App> {
             textTheme: GoogleFonts.robotoSlabTextTheme(
               Theme.of(context).textTheme,
             )),
-        initialRoute: '/login',
+        initialRoute: finalemail == null ? '/login' : '/dashboard',
         routes: {
           '/login': (context) => const LoginPage(),
           '/signup': (context) => const SignupPage(),
@@ -75,9 +80,14 @@ Widget errorHandle() {
 }
 
 Widget progressHandle() {
-  return const Directionality(
-      textDirection: TextDirection.ltr,
-      child: Text('This is a progress bar section'));
+  return Container(
+      width: window.physicalSize.width,
+      height: window.physicalSize.height,
+      color: Colors.grey[200],
+      child: LoadingRotating.square(
+        borderColor: const Color(0xFFFFA726),
+        size: 100.0,
+      ));
 }
 
 signIn(String email, String password, BuildContext context) async {
